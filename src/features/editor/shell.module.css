@@ -1,0 +1,277 @@
+/* The three-column editor chrome. Both the prototype editor (teal) and the
+   component editor (green) are built from these pieces — only `data-accent`
+   differs. */
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--canvas-bg);
+  overflow: hidden;
+}
+
+.topBar {
+  height: var(--bar-height);
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 var(--space-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+  z-index: 20;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.topBarCenter {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  justify-self: center;
+  position: relative;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+}
+
+.projectTitle {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+/* Same chip as the site top bar's brand mark, so it doesn't resize as you move
+   between the home page, the new-project step and the editor. */
+.homeLogo {
+  width: 28px;
+  height: 28px;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex: 0 0 auto;
+}
+
+.homeLogo:hover {
+  background: var(--accent-hover);
+  color: #fff;
+}
+
+.body {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+}
+
+.leftPanel,
+.rightPanel {
+  width: var(--panel-width);
+  flex: 0 0 auto;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.leftPanel {
+  border-right: 1px solid var(--hairline);
+}
+
+.rightPanel {
+  width: var(--panel-width-right);
+  border-left: 1px solid var(--hairline);
+  overflow: auto;
+}
+
+/* ---------- Resize handles ---------- */
+
+/*
+ * The grab strip between two panes — no grip, just the cursor. Its negative
+ * margins cancel its own width, so it straddles the seam it controls instead of
+ * pushing the panes apart.
+ */
+.handle {
+  position: relative;
+  z-index: 15;
+  touch-action: none;
+}
+
+.handleCol {
+  flex: 0 0 9px;
+  margin: 0 -4.5px;
+  cursor: col-resize;
+}
+
+.handleRow {
+  flex: 0 0 9px;
+  margin: -4.5px 0;
+  cursor: row-resize;
+}
+
+/* Under the pointer the seam itself picks up the accent — the whole tell. */
+.handle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.handleCol::after {
+  left: 4px;
+  right: 4px;
+}
+
+.handleRow::after {
+  top: 4px;
+  bottom: 4px;
+}
+
+.handle:hover::after,
+.handleOn::after {
+  opacity: 1;
+}
+
+/* ---------- Canvas ---------- */
+
+.canvas {
+  flex: 1 1 auto;
+  /* Without this the canvas refuses to give width back to a growing panel. */
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--canvas-bg);
+  background-image: radial-gradient(var(--canvas-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.canvasInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 40px;
+}
+
+/* Sits above the phone's left edge, hence the half-phone-width offset. */
+.canvasLabel {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  align-self: flex-start;
+}
+
+.hintPill {
+  position: absolute;
+  left: 20px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  padding: 7px 13px;
+  box-shadow: var(--shadow-hint);
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+}
+
+.hintDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ---------- Panel headings ---------- */
+
+.panelHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panelTitle {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+/* ---------- Layer rows ---------- */
+
+.layerRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-body);
+  border-radius: var(--r-control);
+  padding: var(--space-2) 11px;
+  /* Nesting depth is expressed as extra left padding. */
+  padding-left: var(--layer-indent, 11px);
+}
+
+.layerRow:hover {
+  background: var(--row-hover);
+}
+
+.layerRowOn {
+  background: var(--accent-selection);
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.layerRowOn:hover {
+  background: var(--accent-selection);
+}
+
+.layerLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Double-clicking a row swaps its label for this, sized to sit in the same line. */
+.renameInput {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  outline: none;
+  padding: 0 5px;
+  margin: -1px 0;
+}
+
+.renameInput:focus-visible {
+  outline: none;
+}
+
+.layerTrailing {
+  margin-left: auto;
+}

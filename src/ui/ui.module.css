@@ -1,0 +1,533 @@
+/* Shared primitives. One stylesheet for the whole `ui/` folder — these pieces
+   are one design system and are easier to keep consistent side by side. */
+
+/* ---------- Button ---------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: var(--r-control);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sizeSm {
+  padding: 9px 16px;
+}
+
+.sizeMd {
+  padding: 11px 20px;
+  border-radius: var(--r-button);
+}
+
+.sizeBar {
+  height: 34px;
+  padding: 0 16px;
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--accent-hover);
+}
+
+.outline {
+  background: var(--surface);
+  color: var(--text-body);
+  border: 1px solid var(--border-strong);
+}
+
+.outline:hover {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+/* Wide, low-emphasis "show all" button under a card grid. */
+.ghost {
+  background: var(--surface);
+  color: #41454b;
+  border: 1px solid var(--border);
+  border-radius: var(--r-button);
+  padding: 9px 18px;
+  font-size: var(--text-sm);
+}
+
+.ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+
+/* Dashed "add another…" affordance. */
+.dashed {
+  width: 100%;
+  border: 1px dashed var(--border-strong);
+  background: none;
+  border-radius: var(--r-panel);
+  padding: 11px;
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--text-soft);
+  gap: 8px;
+}
+
+.dashed:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Bare glyph button — the `+` next to a panel heading, modal close, etc. */
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  /* These `+` glyphs are the app's main creation affordance — they need to be
+     findable, and to clear the 3:1 floor for interactive controls. */
+  color: var(--icon-action);
+}
+
+.iconButton:hover {
+  color: var(--accent);
+}
+
+/* ---------- Avatar ---------- */
+
+.avatar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ---------- Badge ---------- */
+
+.badge {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  background: var(--accent-tint);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.badgeSm {
+  font-size: var(--text-2xs);
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* ---------- Section label ---------- */
+
+.sectionLabel {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* ---------- Checkbox ---------- */
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  cursor: pointer;
+  font-size: var(--text-sm);
+}
+
+.checkboxBox {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1.5px solid var(--accent-check-border);
+  color: #fff;
+}
+
+.checkboxOn {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkboxHelp {
+  color: var(--icon-faint);
+  display: flex;
+}
+
+/* ---------- Stepper ---------- */
+
+.stepper {
+  display: flex;
+  align-items: center;
+  background: var(--field-bg);
+  border-radius: var(--r-field);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.stepperButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-soft);
+  width: 28px;
+  height: 32px;
+  font-size: var(--text-md);
+}
+
+.stepperButton:hover {
+  background: var(--field-bg-hover);
+}
+
+.stepperValue {
+  width: 34px;
+  text-align: center;
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+
+.stepperLg .stepperButton {
+  width: 34px;
+  height: 38px;
+  font-size: var(--text-lg);
+}
+
+.stepperLg .stepperValue {
+  width: 44px;
+  font-size: var(--text-base);
+}
+
+/* ---------- Segmented control ---------- */
+
+.segmented {
+  display: inline-flex;
+  background: var(--track-bg);
+  border-radius: var(--r-control);
+  padding: 3px;
+  gap: 2px;
+}
+
+.segment {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 7px;
+}
+
+.segmentOn {
+  background: var(--surface);
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: var(--shadow-seg);
+}
+
+.segmentIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  padding: 0;
+}
+
+.segmentIcon.segmentOn {
+  color: var(--accent);
+}
+
+/* ---------- Underline tabs ---------- */
+
+.tabs {
+  display: flex;
+  gap: 22px;
+  margin-top: 16px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 0 0 11px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabOn {
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Field ---------- */
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--field-bg);
+  border-radius: var(--r-field);
+  font-size: var(--text-sm);
+}
+
+/* The three sizes differ in padding only — they share the scale's --text-sm. */
+.fieldSm {
+  padding: 7px 11px;
+}
+
+.fieldMd {
+  padding: 8px 12px;
+}
+
+.fieldLg {
+  padding: 9px 12px;
+}
+
+.fieldMono {
+  font-family: var(--font-mono);
+}
+
+.fieldGrow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A field that reads as a dropdown: value left, chevron right. */
+.fieldSelect {
+  justify-content: space-between;
+}
+
+.fieldSelect > svg:last-child {
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+/* ---------- Labeled row ---------- */
+
+.labeledRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rowLabel {
+  flex: 0 0 auto;
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+}
+
+/* ---------- Modal ---------- */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 26, 32, 0.28);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: var(--r-card-lg);
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.modalTitle {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.modalSubtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.modalBody {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 22px 20px;
+}
+
+.modalClose {
+  color: var(--text-muted);
+  padding: 4px;
+}
+
+.modalClose:hover {
+  color: var(--text-muted);
+}
+
+/* ---------- Select ---------- */
+
+.select {
+  position: relative;
+}
+
+/* The whole control opens the menu, and it keeps the height a Field has. */
+.selectButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-control);
+  color: var(--text-body);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.selectButtonLg {
+  height: 42px;
+  padding: 0 12px;
+}
+
+.selectButton:hover,
+.selectButtonOpen {
+  border-color: var(--accent);
+}
+
+.selectValue {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectValueMono {
+  font-family: var(--font-mono);
+}
+
+.selectEmpty {
+  color: var(--text-faint);
+}
+
+.selectChevron {
+  flex: 0 0 auto;
+  color: var(--icon-action);
+  transition: transform 120ms ease;
+}
+
+.selectButtonOpen .selectChevron {
+  transform: rotate(180deg);
+}
+
+.selectMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 244px;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+}
+
+/* For a control near the bottom of a modal, which clips its own overflow. */
+.selectMenuUp {
+  top: auto;
+  bottom: calc(100% + 6px);
+}
+
+.selectOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--r-field);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.selectOption:hover {
+  background: var(--field-bg);
+}
+
+.selectOptionOn {
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.selectOptionLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectOptionMeta {
+  flex: 0 0 auto;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+}

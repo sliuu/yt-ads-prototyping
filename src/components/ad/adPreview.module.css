@@ -1,0 +1,571 @@
+/* Thumbnail-scale drawings of each ad format. Everything here is deliberately
+   tiny (sub-pixel font sizes and all) — these are device mocks that fill a
+   card's preview area. */
+
+.stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--preview-bg);
+  background-image: radial-gradient(var(--preview-dot) 1px, transparent 1px);
+  background-size: 11px 11px;
+}
+
+.device {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  background: #000;
+  border: 2px solid #14171b;
+  /* No drop shadow: the real tool renders the preview flat, and the black frame
+     already separates itself from the ground without one. */
+  overflow: hidden;
+}
+
+.viewport {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Each device keeps the aspect ratio of the real thing, since half of what a
+   thumbnail says about a format is the shape of the screen it runs on. */
+
+.phoneScreen {
+  width: 64px;
+  height: 116px;
+  border-radius: 11px;
+}
+
+.desktopScreen {
+  width: 148px;
+  height: 94px;
+  border-radius: 6px;
+  border-width: 3px;
+}
+
+.tvScreen {
+  width: 152px;
+  height: 86px;
+  border-radius: 5px;
+  border-width: 3px;
+}
+
+/** Browser bar — the one part of the desktop frame that isn't the page. */
+.chrome {
+  flex: 0 0 auto;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+  background: #23272d;
+}
+
+.chrome span {
+  width: 2.5px;
+  height: 2.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.chrome i {
+  flex: 1;
+  height: 4px;
+  margin-left: 3px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.neck {
+  width: 16px;
+  height: 6px;
+  background: #1b1f24;
+}
+
+.base {
+  width: 58px;
+  height: 3px;
+  border-radius: 2px;
+  background: #14171b;
+}
+
+/* ---------- Shared parts ---------- */
+
+/** Full-bleed layer for kinds that paint their own background. */
+.sheet {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.stack {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.padded {
+  flex-direction: column;
+  gap: 4px;
+  padding: 5px;
+}
+
+.block {
+  border-radius: 4px;
+  background: #e6e8ea;
+}
+
+.bar {
+  border-radius: 2px;
+}
+
+.adChip {
+  position: absolute;
+  padding: 0 3px;
+  border-radius: 2px;
+  background: var(--ad-yellow);
+  font-size: 4.5px;
+  font-weight: 700;
+  color: #3a2c00;
+}
+
+.adChipDark {
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.installPill {
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: #fff;
+  font-size: 6px;
+  font-weight: 700;
+  color: var(--screen-navy);
+}
+
+.closeDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 6px;
+}
+
+.monoTiny {
+  font-family: var(--font-mono);
+  font-size: 5px;
+  color: #fff;
+}
+
+.topRight {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* ---------- shorts ---------- */
+
+.shortsDots {
+  position: absolute;
+  right: 4px;
+  bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.shortsDots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.shortsTimer {
+  position: absolute;
+  right: 4px;
+  bottom: 23px;
+  padding: 1px 3px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.shortsBanner {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 5px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--ad-gradient);
+}
+
+/* ---------- infeed ---------- */
+
+.feedRow {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.feedAvatar {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e2e5e0;
+}
+
+.feedLine {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: #eceee9;
+}
+
+.feedVideo {
+  position: relative;
+  height: 34px;
+  border-radius: 5px;
+  background: linear-gradient(160deg, #2c3138, #3a4048);
+  overflow: hidden;
+  box-shadow: 0 0 0 1.5px #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* ---------- interstitial / rewarded ---------- */
+
+.creativeTile {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #7c3aed, #db2777);
+}
+
+.rewardStar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f2b642, #db2777);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--text-xs);
+}
+
+.rewardPill {
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: #2f9e44;
+  font-size: 6px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---------- banner ---------- */
+
+.bannerOverlay {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 14px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--ad-gradient);
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  gap: 3px;
+}
+
+.bannerCta {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- preroll ---------- */
+
+.skipBox {
+  position: absolute;
+  right: 5px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 5.5px;
+  color: #fff;
+}
+
+.progressTrack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.progressFill {
+  width: 45%;
+  height: 100%;
+  background: var(--ad-yellow);
+}
+
+/* ---------- masthead ---------- */
+
+.mastheadHero {
+  position: relative;
+  height: 38px;
+  border-radius: 5px;
+  background: linear-gradient(120deg, #7c3aed, #db2777);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 4px;
+}
+
+.mastheadCta {
+  padding: 1px 5px;
+  border-radius: var(--r-pill);
+  background: #fff;
+  font-size: 5px;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.mastheadGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.mastheadGrid div {
+  height: 20px;
+  border-radius: 3px;
+  background: #e6e8ea;
+}
+
+/* ---------- carousel ---------- */
+
+.carouselTrack {
+  position: absolute;
+  inset: 0;
+  background: #0f1115;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 8px;
+}
+
+.carouselCard {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 82px;
+  border-radius: 6px;
+}
+
+.carouselCardLead {
+  background: linear-gradient(160deg, #0d9488, #0b6b62);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  padding: 4px;
+}
+
+.carouselCardLead div {
+  width: 100%;
+  height: 10px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.carouselCardNext {
+  background: linear-gradient(160deg, #f2b642, #db2777);
+}
+
+.pageDots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+.pageDots span {
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.pageDots span:first-child {
+  width: 7px;
+  background: #fff;
+}
+
+/* ---------- story ---------- */
+
+.storyBackdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(200deg, #2c3138, #7c3aed);
+}
+
+.storyProgress {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  display: flex;
+  gap: 2px;
+}
+
+.storyProgress span {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.storyProgress span:first-child {
+  background: #fff;
+}
+
+.storySwipe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: #fff;
+  font-size: 5.5px;
+}
+
+/* ---------- desktop page ---------- */
+
+.webPage {
+  flex-direction: row;
+  gap: 6px;
+  padding: 6px;
+  background: #fff;
+}
+
+.webMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* The teal outline is the ad slot, same signal the phone feed card carries. */
+.webVideo {
+  position: relative;
+  flex: 1;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #2c3138, #3a4048);
+  box-shadow: 0 0 0 1.5px #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+}
+
+/** Up-next rail — only a desktop feed has the width for one. */
+.webRail {
+  flex: 0 0 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.webRail span {
+  height: 13px;
+  border-radius: 3px;
+  background: #e6e8ea;
+}
+
+/* ---------- TV masthead ---------- */
+
+.tvHero {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 8px;
+  background: linear-gradient(115deg, #7c3aed, #db2777);
+}
+
+/* The ring is what a remote moves between, so it reads as the focused control. */
+.tvCta {
+  margin-top: 2px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: 0 0 0 1.5px #fff;
+  font-size: 5.5px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* ---------- landscape adjustments ---------- */
+
+/* Parts sized against a 64px-wide phone need a second set of numbers once the
+   screen is twice as wide and half as tall. */
+
+.wide .mastheadHero {
+  flex: 1;
+  height: auto;
+}
+
+.wide .mastheadGrid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.wide .mastheadGrid div {
+  height: 15px;
+}
+
+.wide .bannerOverlay {
+  bottom: 8px;
+  height: 16px;
+}
+
+.wide .skipBox {
+  bottom: 9px;
+}

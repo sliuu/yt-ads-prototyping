@@ -1,0 +1,92 @@
+/* Pieces of ad surfaces that appear on more than one screen: the striped
+   "video" placeholder, the Shorts right rail, the countdown chip. */
+
+.hatch {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--hatch-a) 0 var(--hatch-step),
+    var(--hatch-b) var(--hatch-step) calc(var(--hatch-step) * 2)
+  );
+}
+
+.toneShorts {
+  --hatch-a: #22262c;
+  --hatch-b: #282d34;
+}
+
+.toneVideo {
+  --hatch-a: #2c3138;
+  --hatch-b: #333942;
+}
+
+.toneThumb {
+  --hatch-a: #2c3138;
+  --hatch-b: #3a4048;
+}
+
+.streamCaption {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: #9aa3ad;
+  letter-spacing: 0.03em;
+}
+
+.nowPlaying {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.34);
+}
+
+.nowPlaying .streamCaption {
+  letter-spacing: 0.04em;
+}
+
+/* Square thumbnail standing in for a video source. */
+.sourceThumb {
+  position: relative;
+  flex: 0 0 auto;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Like / comment / more, pinned to the right edge of a Shorts phone. */
+.rail {
+  position: absolute;
+  right: 12px;
+  bottom: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  color: #fff;
+}
+
+/* Dark pill holding the skip countdown. */
+.timerChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.62);
+  padding: 6px 10px;
+  border-radius: var(--r-pill);
+  color: #fff;
+}
+
+.timerBlur {
+  backdrop-filter: blur(4px);
+}
+
+.timerLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}

@@ -1,0 +1,337 @@
+/* Component marketplace: hero, collection sidebar, and the results grid. */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--canvas-bg);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.heroInner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 34px var(--space-6) 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+
+.heroTitle {
+  font-size: var(--text-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.heroSubtitle {
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--text-soft);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.heroAction {
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+/* ---------- Layout ---------- */
+
+.body {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 28px var(--space-6) 72px;
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  position: sticky;
+  top: calc(var(--bar-height) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-button);
+  padding: 0 11px;
+  height: 36px;
+}
+
+.search:focus-within {
+  border-color: var(--accent);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.searchInput::placeholder {
+  color: var(--text-faint);
+}
+
+/*
+ * The wrapper already turns its border accent on focus, so the global ring would
+ * draw a second box around the same control. Two-class specificity (0,2,0) beats
+ * the `input:focus-visible` rule in base.css (0,1,1).
+ */
+.searchInput:focus-visible {
+  outline: none;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.groupLabel {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding: 0 10px;
+  margin-bottom: 7px;
+}
+
+.collection {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-body);
+  text-align: left;
+  border-radius: var(--r-control);
+  padding: var(--space-2) 10px;
+}
+
+.collection:hover {
+  background: var(--row-hover);
+}
+
+.collectionOn {
+  background: var(--accent-selection);
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.collectionOn:hover {
+  background: var(--accent-selection);
+}
+
+.collectionName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.collectionCount {
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}
+
+.collectionOn .collectionCount {
+  color: var(--accent-deep);
+}
+
+/* ---------- Results ---------- */
+
+.resultsHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.resultsTitle {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  margin: 0 0 3px;
+}
+
+.resultsCount {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: var(--space-4);
+}
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--r-card-lg);
+  padding: 44px var(--space-5);
+  text-align: center;
+  font-size: var(--text-base);
+  color: var(--text-soft);
+}
+
+/* ---------- Tiles ---------- */
+
+/* `position: relative` anchors the stretched link on `.tileName`. */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card-lg);
+  overflow: hidden;
+}
+
+.tile:hover {
+  border-color: var(--accent);
+}
+
+.tilePreview {
+  height: 156px;
+  border-bottom: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+.tileBody {
+  padding: var(--space-3) 14px 13px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tileTop {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.tileName {
+  flex: 1;
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.tileName:hover {
+  color: var(--accent-deep);
+}
+
+/*
+ * Stretched link: one anchor whose hit area is the whole tile. Beats wrapping the
+ * tile in an `<a>`, which would nest the save button inside a link.
+ */
+.tileName::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.saveButton {
+  /* Lifted above the stretched link so saving stays its own target. */
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 1px;
+  /* The tile's only control, so it sits at interactive-icon strength. */
+  color: var(--icon-action);
+  line-height: 0;
+}
+
+.saveButton:hover {
+  color: var(--accent);
+}
+
+.saveButtonOn {
+  color: var(--accent);
+}
+
+.tileDesc {
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--text-muted);
+  margin: 5px 0 0;
+  /* Two lines keeps every tile in the row the same height. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Publisher chip on the left, last-updated pushed to the right edge. */
+.tileFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+/*
+ * A neutral chip rather than a coloured one: the tile already spends its colour
+ * on the preview and the save heart, and every tile carries a publisher, so
+ * tinting them all would add noise without sorting anything.
+ */
+.tilePublisher {
+  flex: 0 1 auto;
+  min-width: 0;
+  padding: 3px var(--space-2);
+  border-radius: var(--r-pill);
+  background: var(--chip-bg);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tileUpdated {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+}

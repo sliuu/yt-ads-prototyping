@@ -1,0 +1,153 @@
+/*
+ * Design tokens.
+ *
+ * Everything that is accent-independent lives on :root. The two product modes —
+ * teal (prototype editor) and green (component editor) — redefine the same set
+ * of accent variables, so a single `data-accent` attribute reskins a whole tree.
+ */
+
+:root {
+  /* Typography */
+  --font-ui: 'Google Sans', system-ui, sans-serif;
+  --font-mono: 'Google Sans Code', ui-monospace, monospace;
+
+  /*
+   * Type scale. Eight steps, and nothing in between — a half-pixel difference
+   * isn't a hierarchy step, it's drift. Sizes below 8px exist only inside the
+   * miniature editor thumbnails on the Welcome page; those are illustration
+   * rather than text and stay as literals.
+   */
+  --text-2xs: 11px; /* badges, uppercase meta */
+  --text-xs: 12px; /* fine print, section eyebrows */
+  --text-sm: 13px; /* dense UI: controls, rows, secondary body */
+  --text-base: 14px; /* card titles, default body */
+  --text-md: 15px; /* panel titles, top bar */
+  --text-lg: 17px; /* section and modal headings */
+  --text-xl: 20px; /* large headings */
+  --text-display: 26px; /* page heroes */
+
+  /* Spacing, on a 4px base. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /*
+   * Neutral text. Everything down to --text-faint clears WCAG AA (4.5:1) on
+   * white and on the canvas, which leaves the bottom three steps perceptually
+   * close together — AA simply doesn't leave room for four distinct greys.
+   * Below --text-secondary, carry hierarchy with size and weight, not more grey.
+   */
+  --text: #1f2328; /* 15.8:1 */
+  --text-body: #374151; /* 10.3:1 */
+  --text-secondary: #55595f; /* 7.1:1 */
+  --text-soft: #5f666d; /* 5.8:1 */
+  --text-muted: #656c73; /* 5.3:1 */
+  --text-faint: #6a7178; /* 5.0:1 */
+
+  /* Interactive glyphs need 3:1 (WCAG 1.4.11); --icon-faint is decoration only. */
+  --icon-action: #6a7178;
+  --icon-faint: #c2c7cc;
+
+  /* Neutral surfaces */
+  --surface: #ffffff;
+  --surface-sunken: #fafbfb;
+  --field-bg: #f3f4f6;
+  --field-bg-hover: #e9eaec;
+  --track-bg: #f1f2f3;
+  --chip-bg: #eef0f1;
+
+  /* Lines */
+  --hairline: #ececee;
+  --hairline-soft: #f1f1f2;
+  --border: #e2e4e6;
+  --border-strong: #d3d7da;
+  --border-dashed: #cfd3d6;
+
+  /* Ad creative */
+  --ad-gradient: linear-gradient(90deg, #7c3aed, #db2777);
+  --ad-yellow: #f2b642;
+  --screen-dark: #0b0d10;
+  --screen-navy: #0f172a;
+  --screen-slate: #1e293b;
+
+  /* Radii */
+  --r-field: 8px;
+  --r-control: 9px;
+  --r-button: 10px;
+  --r-panel: 11px;
+  --r-card: 14px;
+  --r-card-lg: 16px;
+  --r-pill: 999px;
+
+  /* Elevation */
+  --shadow-seg: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-menu: 0 12px 34px rgba(20, 30, 40, 0.16);
+  --shadow-modal: 0 24px 70px rgba(20, 30, 40, 0.28);
+  --shadow-hint: 0 4px 14px rgba(20, 30, 40, 0.07);
+  --shadow-phone: 0 14px 40px rgba(20, 30, 40, 0.1);
+  --shadow-phone-lg: 0 30px 80px rgba(0, 0, 0, 0.6);
+
+  /* Layout */
+  --bar-height: 56px;
+  --panel-width: 346px;
+  --panel-width-right: var(--panel-width);
+  --content-max: 1120px;
+}
+
+/* Prototype editor / Welcome */
+[data-accent='teal'] {
+  --accent: #0d9488;
+  --accent-hover: #0b7c72;
+  --accent-deep: #0b6b62;
+  --accent-selection: #d6f0e8;
+  --accent-tint: #e6f0ed;
+  --accent-tint-strong: #e6f5f1;
+  --accent-wash: #f4faf8;
+  --accent-check-border: #cfd3d6;
+  --canvas-bg: #f4f5f6;
+  --canvas-dot: #e3e5e7;
+
+  /* The prototype editor's property panel carries denser controls than the
+     component editor's, so it runs a little wider than the layer panel. */
+  --panel-width-right: 380px;
+  --surface-recessed: #e9ebed;
+  --scrollbar-thumb: #dcdee1;
+  --tile-bg: #eef0f1;
+  --row-hover: #f5f6f7;
+
+  /* 3.7:1 on white, 5.2:1 on the participant view's dark stage. */
+  --focus-ring: var(--accent);
+}
+
+/* Component editor */
+[data-accent='green'] {
+  --accent: #2f9e44;
+  --accent-hover: #268139;
+  --accent-deep: #1f7a33;
+  --accent-selection: #d3ecd6;
+  --accent-tint: #e2f0e2;
+  --accent-tint-strong: #eaf3e6;
+  --accent-wash: #f5faf4;
+  --accent-check-border: #cfd4cc;
+  --canvas-bg: #f3f5f2;
+  --canvas-dot: #dde3da;
+  --surface-recessed: #e8ece6;
+  --scrollbar-thumb: #dcdfda;
+  --tile-bg: #eaf3e6;
+  --row-hover: #f4f6f3;
+
+  --focus-ring: var(--accent);
+
+  /* The green mode also warms its neutrals a touch. */
+  --text-muted: #656b64;
+  --text-faint: #6a7069;
+  --icon-action: #6a7069;
+  --field-bg: #f4f6f3;
+  --hairline: #eceee9;
+  --hairline-soft: #f0f1ee;
+  --border-strong: #d5dad2;
+}

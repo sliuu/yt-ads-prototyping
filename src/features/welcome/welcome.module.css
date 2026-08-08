@@ -1,0 +1,789 @@
+/* Welcome / home screen: top bar, the projects grid, and the controls above it. */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--canvas-bg);
+}
+
+/* ---------- Layout ---------- */
+
+/*
+ * The whole page above the footer; the projects grid grows into whatever is left.
+ * The top padding is deliberately more than the sides: with the doorways gone the
+ * controls row now opens the page, and it needs room off the bar to read as a
+ * heading rather than as a second toolbar stuck to the first.
+ */
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 60px var(--space-6) 44px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 40px 0 16px;
+}
+
+/* The first header opens the page, so `.content`'s padding is all the room it needs. */
+.sectionHeaderFirst {
+  margin-top: 0;
+}
+
+.gridThree {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+/* ---------- Empty account ---------- */
+
+/*
+ * Sits where the grid would be, so it opens with room above it rather than a rule.
+ * Centred as a block: with no grid beside it there's no left edge left to align to.
+ */
+.onboard {
+  padding: var(--space-6) 0 var(--space-4);
+  text-align: center;
+}
+
+.onboardTitle {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.onboardSubtitle {
+  font-size: var(--text-base);
+  color: var(--text-soft);
+  margin: 6px 0 var(--space-5);
+}
+
+/*
+ * The guide is the third thing to do, after the two doorways, so it stays a text
+ * link — the same weight the components link carries in the top bar.
+ */
+.onboardGuide {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: var(--space-5);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.onboardGuide:hover {
+  color: var(--accent);
+}
+
+/* ---------- Doorways ---------- */
+
+/*
+ * Entry points in place of teaser grids — the screens behind them browse their
+ * catalogues properly, so a thumbnail here bought nothing. Stacked and equal
+ * width: reading order carries the hierarchy, so neither card has to be shaped
+ * differently from the other to say which one to take.
+ */
+.doorways {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* The block centres, the cards don't: their contents stay a left-read icon-then-text row. */
+.doorway {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-card-lg);
+  padding: 14px var(--space-4);
+  transition: border-color 0.15s ease;
+}
+
+.doorway:hover {
+  border-color: var(--accent);
+  color: inherit;
+}
+
+.doorwayIcon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--field-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-body);
+}
+
+/* Marks the recommended path in colour as well as in words. */
+.doorwayIconAccent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.doorwayText {
+  flex: 1;
+  min-width: 0;
+}
+
+.doorwayTitle {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+
+.doorwayDesc {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 1px;
+  line-height: 1.4;
+}
+
+/* Sits at the far edge so both doorways read as "this goes somewhere". */
+.doorwayArrow {
+  flex: 0 0 auto;
+  font-size: var(--text-md);
+  color: var(--text-faint);
+}
+
+/* Accent only under the cursor — on the resting card it would read as a state. */
+.doorway:hover .doorwayArrow {
+  color: var(--accent);
+}
+
+/* ---------- New project ---------- */
+
+/*
+ * The page's one saturated shape, and the only thing on it that starts work rather
+ * than finding it. Small enough to sit in a row of controls; solid accent so it
+ * still wins the row on colour.
+ */
+.newProject {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.newProjectButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--r-button);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  transition: background 120ms ease;
+}
+
+.newProjectButton:hover {
+  background: var(--accent-hover);
+}
+
+/* Right-aligned: it hangs off the last control in the row, at the page's edge. */
+.newProjectMenu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 264px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+  z-index: 40;
+}
+
+.newProjectItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 9px 10px;
+  border-radius: var(--r-field);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.newProjectItem:hover {
+  background: var(--field-bg);
+  color: var(--text);
+}
+
+/* The icons name the two paths; they only carry the accent once you're on one. */
+.newProjectItem svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--icon-action);
+}
+
+.newProjectItem:hover svg {
+  color: var(--accent);
+}
+
+.newProjectItemDesc {
+  display: block;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 1px;
+  line-height: 1.4;
+}
+
+/* ---------- Footer ---------- */
+
+/* A recessed band at the very bottom, so the page ends rather than just stopping. */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 26px var(--space-6);
+  background: var(--surface-recessed);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-sm);
+  /* One step up from --text-faint: this sits on the recessed band, not white. */
+  color: var(--text-soft);
+}
+
+.footer a {
+  font-weight: 500;
+}
+
+/* ---------- Cards ---------- */
+
+.card {
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: var(--r-card-lg);
+  overflow: hidden;
+  display: block;
+}
+
+/* Hover is carried by the border alone — no lift. */
+.card:hover {
+  border-color: var(--accent);
+  color: inherit;
+}
+
+.cardPreview {
+  border-bottom: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+.cardBody {
+  padding: 13px 15px;
+}
+
+.cardName {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.cardDesc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.projectBody {
+  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.projectMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.projectName {
+  font-size: var(--text-base);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.projectAge {
+  font-size: var(--text-xs);
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.avatarStack {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.componentBody {
+  padding: 14px var(--space-4);
+}
+
+.componentName {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.componentDesc {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* Dashed "start from scratch" cell that closes each grid. */
+.blankCard {
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px dashed var(--border-dashed);
+  background: var(--surface-sunken);
+  border-radius: var(--r-card-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 20px;
+  text-align: center;
+}
+
+.blankCard:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+  color: inherit;
+}
+
+.blankIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--tile-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.blankTitle {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.blankDesc {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ---------- Search and ownership filter ---------- */
+
+/* Search and the filter pills share the right end of a section header. */
+.headerActions {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4);
+  margin-left: var(--space-6);
+}
+
+/*
+ * Long rather than tall: it stays a normal-height control, but spans the whole
+ * gap between the ownership pills and the sort select, so it reads as a field
+ * you type a phrase into.
+ */
+.search {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 34px;
+  padding: 0 var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-button);
+}
+
+.search:focus-within {
+  border-color: var(--accent);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.searchInput::placeholder {
+  color: var(--text-faint);
+}
+
+/*
+ * The wrapper already turns its border accent on focus, so the global ring would
+ * draw a second box around the same control. Two-class specificity (0,2,0) beats
+ * the `input:focus-visible` rule in base.css (0,1,1).
+ */
+.searchInput:focus-visible {
+  outline: none;
+}
+
+/* Chrome draws its own clear button on `type="search"`; ours would be a third control. */
+.searchInput::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* Native select with a drawn chevron — the same idiom as the editor's type pickers. */
+.sortSelect {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  color: var(--icon-action);
+}
+
+.sortSelect svg {
+  position: absolute;
+  right: 11px;
+  pointer-events: none;
+}
+
+/*
+ * The quietest control in the row: sorting only rearranges what's already there,
+ * so it sits as a grey pill with no edge of its own rather than matching the
+ * search field's boxed weight.
+ */
+.sortSelectInput {
+  appearance: none;
+  height: 34px;
+  /* Right padding clears the chevron sitting over the control. */
+  padding: 0 30px 0 var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  background: var(--field-bg);
+  border: none;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.sortSelectInput:hover {
+  background: var(--field-bg-hover);
+}
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--r-card-lg);
+  padding: 40px var(--space-5);
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-base);
+  color: var(--text-soft);
+}
+
+.filterButtons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* These two stand in for the section heading, so they carry heading-sized text. */
+.filterButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 5px 13px;
+  border-radius: var(--r-control);
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.filterButton:hover {
+  background: var(--chip-bg);
+  color: var(--text);
+}
+
+/* The active scope stays distinct through its white fill and weight. */
+.filterButtonOn,
+.filterButtonOn:hover {
+  background: var(--surface);
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------- Component-card thumbnail: a mini component editor ---------- */
+
+.mini {
+  height: 150px;
+  overflow: hidden;
+  background: #f3f5f2;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eceee9;
+}
+
+.miniBar {
+  height: 15px;
+  flex: 0 0 auto;
+  background: #fff;
+  border-bottom: 1px solid #eceee9;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0 5px;
+}
+
+.miniMark {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: #2f9e44;
+}
+
+.miniTitleLine {
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background: #e2e5e0;
+}
+
+.miniPublish {
+  margin-left: auto;
+  width: 20px;
+  height: 6px;
+  border-radius: 3px;
+  background: #2f9e44;
+}
+
+.miniBody {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.miniSide {
+  width: 34px;
+  flex: 0 0 auto;
+  background: #fff;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.miniSideLeft {
+  border-right: 1px solid #eceee9;
+}
+
+.miniSideRight {
+  border-left: 1px solid #eceee9;
+}
+
+.miniRow {
+  height: 3px;
+  border-radius: 2px;
+}
+
+.miniCanvas {
+  flex: 1;
+  min-width: 0;
+  background: #f3f5f2;
+  background-image: radial-gradient(#dde3da 1px, transparent 1px);
+  background-size: 11px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miniPhone {
+  position: relative;
+  width: 60px;
+  height: 104px;
+  border-radius: 10px;
+  background: #000;
+  border: 2px solid #14171b;
+  box-shadow: 0 4px 12px rgba(20, 30, 20, 0.28);
+  overflow: hidden;
+  outline: 1.5px solid #2f9e44;
+  outline-offset: 1.5px;
+}
+
+.miniShortsDots {
+  position: absolute;
+  right: 4px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.miniShortsDots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.miniShortsTimer {
+  position: absolute;
+  right: 4px;
+  bottom: 21px;
+  padding: 1px 3px;
+  border-radius: var(--r-pill);
+  background: rgba(0, 0, 0, 0.6);
+  font-family: var(--font-mono);
+  font-size: 5px;
+  color: #fff;
+}
+
+.miniShortsBanner {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 5px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--ad-gradient);
+}
+
+.miniReel {
+  position: absolute;
+  inset: 0;
+  background: #0f1115;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-left: 6px;
+}
+
+.miniReelCard {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 80px;
+  border-radius: 6px;
+}
+
+.miniReelLead {
+  background: linear-gradient(160deg, #7c3aed, #db2777);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-end;
+  padding: 4px;
+}
+
+.miniReelLead div {
+  width: 100%;
+  height: 9px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.miniReelNext {
+  background: linear-gradient(160deg, #2f9e44, #1f7a33);
+}
+
+.miniDots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+.miniDots span {
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.miniDots span:first-child {
+  width: 7px;
+  background: #fff;
+}
+
+.miniInterstitial {
+  position: absolute;
+  inset: 0;
+  background: var(--screen-slate);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.miniClose {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 7px;
+}
+
+.miniTile {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(145deg, #f2b642, #db2777);
+}
+
+.miniClaim {
+  margin-top: 1px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: #2f9e44;
+  font-size: 6px;
+  font-weight: 700;
+  color: #fff;
+}

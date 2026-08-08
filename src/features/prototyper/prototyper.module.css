@@ -1,0 +1,2464 @@
+/* Prototype editor. The three-column chrome comes from `features/editor`;
+   everything here is the prototyper's own content. */
+
+/* ================= Top bar ================= */
+
+.projectAnchor {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* Renaming happens in place: the field borrows the title's own type and adds
+   only a hairline under it, so the top bar never changes shape mid-edit. */
+.projectTitleInput {
+  min-width: 80px;
+  max-width: 340px;
+  padding: 2px 2px 3px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-md);
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+}
+
+.projectTitleInput:focus {
+  border-bottom-color: var(--accent);
+}
+
+.projectTitleInput:focus-visible {
+  outline: none;
+}
+
+.splitAnchor {
+  position: relative;
+}
+
+/* Split "View" button: run the prototype, or open its dropdown. */
+.splitButton {
+  display: flex;
+  align-items: stretch;
+  border-radius: var(--r-control);
+  overflow: hidden;
+}
+
+.splitMain,
+.splitCaret {
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.splitMain {
+  gap: 7px;
+  padding: 0 14px;
+}
+
+.splitCaret {
+  width: 30px;
+  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.splitMain:hover,
+.splitCaret:hover {
+  background: var(--accent-hover);
+}
+
+.projectMenu {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+  z-index: 40;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  justify-content: flex-end;
+  text-align: right;
+  background: none;
+  border: none;
+  padding: 9px 10px;
+  border-radius: var(--r-field);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  font-family: inherit;
+  color: var(--text);
+}
+
+.menuItemMuted {
+  color: var(--text-soft);
+}
+
+.menuItem:hover {
+  background: var(--field-bg);
+}
+
+/* View dropdown: how the prototype runs for a participant, and how they get it. */
+.viewMenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 268px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  z-index: 40;
+}
+
+.viewOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+}
+
+.viewExport {
+  border-top: 1px solid var(--hairline-soft);
+  padding: 12px 14px 14px;
+}
+
+.viewExportHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.viewExportTitle {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.viewLinkRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewLink {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: var(--field-bg);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-field);
+  padding: 0 9px;
+  line-height: 28px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-body);
+}
+
+.viewQr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+.viewQrCode {
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+}
+
+.viewQrDownload {
+  width: 100%;
+}
+
+.viewNote {
+  margin: 0;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--text-soft);
+  text-align: center;
+}
+
+/* ================= Left panel ================= */
+
+.variantsSection {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+
+.sectionHead {
+  margin-bottom: 12px;
+}
+
+/* One chooser rather than a list: only one variant is ever being edited. */
+.variantPicker {
+  position: relative;
+}
+
+/* The whole control opens the menu, not just its label. */
+.variantButton {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: 38px;
+  padding: 0 11px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-button);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.variantButton:hover,
+.variantButtonOpen {
+  border-color: var(--accent);
+}
+
+.variantNameEditor {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: 38px;
+  padding: 0 11px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-button);
+}
+
+.variantNameInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--accent-deep);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.variantNameInput:focus-visible {
+  outline: none;
+}
+
+.variantName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--accent-deep);
+}
+
+.variantChevron {
+  flex: 0 0 auto;
+  transition: transform 120ms ease;
+}
+
+.variantButtonOpen .variantChevron {
+  transform: rotate(180deg);
+}
+
+/* Same menu treatment as the project menu in the top bar. */
+.variantMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+}
+
+.variantOption {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--r-field);
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.variantOption:hover {
+  background: var(--field-bg);
+}
+
+.variantOptionOn {
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.variantOptionLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layersSection {
+  padding: 18px 18px 8px;
+  flex: 1 1 auto;
+  overflow: auto;
+  min-height: 0;
+}
+
+.layerList {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+/* A fixed height until the divider above it is dragged, so switching tabs
+   never resizes the panel under the pointer. */
+.dataSection {
+  flex: 0 0 auto;
+  height: 368px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-top: 1px solid var(--hairline-soft);
+}
+
+.dataTabs {
+  flex: 0 0 auto;
+  padding: 14px 18px 0;
+  margin-bottom: 14px;
+}
+
+/* The tabs stay put; only what they switch between scrolls. */
+.dataBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 18px 18px;
+}
+
+.dataRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.themeEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.themeRule {
+  padding: 10px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-panel);
+  background: var(--field-bg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.themePropertyRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.themeSyntax {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+}
+
+.themeNameInput,
+.themePropertyName,
+.themePropertyValue {
+  min-width: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  background: transparent;
+  color: var(--text-body);
+  font: inherit;
+  padding: 3px 4px;
+}
+
+.themeNameInput {
+  flex: 1;
+  color: var(--accent-deep);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.themeNameRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px;
+}
+
+.themeNameRow > button {
+  flex: 0 0 auto;
+  padding: 3px;
+  color: var(--text-faint);
+}
+
+.themeNameInput:hover,
+.themePropertyName:hover,
+.themePropertyValue:hover {
+  background: var(--surface);
+}
+
+.themeNameInput:focus,
+.themePropertyName:focus,
+.themePropertyValue:focus {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.themeNameInput:focus-visible,
+.themePropertyName:focus-visible,
+.themePropertyValue:focus-visible {
+  outline: none;
+}
+
+.themeProperties {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 0 5px 8px;
+}
+
+.themePropertyName {
+  flex: 1 1 52%;
+  color: #986801;
+}
+
+.themePropertyValue {
+  flex: 1 1 38%;
+  color: var(--accent-deep);
+}
+
+.themePropertyRow > button {
+  flex: 0 0 auto;
+  padding: 2px;
+  color: var(--text-faint);
+}
+
+.addThemeProperty {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  border: none;
+  border-radius: var(--r-field);
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-xs);
+}
+
+.addThemeProperty:hover {
+  background: var(--row-hover);
+  color: var(--text-body);
+}
+
+.codeFilesPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.codeFileActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.codeFileAction {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 7px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--text-body);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.codeFileAction:hover {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+
+.codeFileList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.codeFileRowWrap {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-right: 5px;
+  border-radius: var(--r-control);
+  background: transparent;
+}
+
+.codeFileRow {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 9px;
+  border: none;
+  background: transparent;
+  color: var(--text-body);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.codeFileRowWrap:hover {
+  background: var(--row-hover);
+}
+
+.codeFileRowOn {
+  background: var(--accent-selection);
+  color: var(--accent-deep);
+}
+
+.codeFileRowWrap > button:last-child {
+  flex: 0 0 auto;
+  padding: 2px;
+  color: var(--text-faint);
+}
+
+.codeFileRow span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.codeFileType {
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+}
+
+/* ================= Code editor ================= */
+
+.codeEditorCanvas {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #171a1f;
+  color: #d9dee7;
+}
+
+.codeEditorHead {
+  height: 46px;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid #2b3038;
+  background: #1d2127;
+}
+
+.codeEditorBack {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #aeb6c2;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-xs);
+}
+
+.codeEditorBack:hover {
+  background: #292e36;
+  color: #fff;
+}
+
+.codeEditorFileName {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: #f0f3f7;
+}
+
+.codeEditorFileNameInput {
+  width: 180px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  background: transparent;
+  color: #f0f3f7;
+  font: inherit;
+  text-align: center;
+}
+
+.codeEditorFileNameInput:hover {
+  background: #292e36;
+}
+
+.codeEditorFileNameInput:focus {
+  border-color: #566273;
+  background: #13161a;
+}
+
+.codeEditorFileNameInput:focus-visible {
+  outline: none;
+}
+
+.codeEditorStatus {
+  justify-self: end;
+  color: #77818e;
+  font-size: var(--text-2xs);
+}
+
+.codeEditorBody {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  overflow: hidden;
+}
+
+.codeLineNumbers {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 18px 12px 18px 0;
+  border-right: 1px solid #252a31;
+  color: #58616d;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  user-select: none;
+}
+
+.codeEditorPane {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #171a1f;
+}
+
+.codeHighlight,
+.codeTextarea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 18px 20px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.codeHighlight {
+  overflow: hidden;
+  color: #d9dee7;
+  pointer-events: none;
+}
+
+.codeTextarea {
+  z-index: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  overflow: auto;
+  background: transparent;
+  color: transparent;
+  caret-color: #fff;
+  -webkit-text-fill-color: transparent;
+  white-space: pre;
+}
+
+.codeTextarea::selection {
+  background: rgba(73, 133, 224, 0.42);
+}
+
+.codeTextarea:focus-visible {
+  outline: none;
+}
+
+.codeTokenComment {
+  color: #75806f;
+  font-style: italic;
+}
+
+.codeTokenString {
+  color: #d6b47a;
+}
+
+.codeTokenNumber {
+  color: #9fca98;
+}
+
+.codeTokenLiteral {
+  color: #79b8ff;
+}
+
+.codeTokenKeyword {
+  color: #c792ea;
+}
+
+.rowHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rowHeadSpaced {
+  margin-top: 4px;
+}
+
+.rowHeadTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+/* The linked video source, as an outlined card in the sidebar. */
+.sourceCard {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: var(--r-panel);
+  padding: 9px 11px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.sourceCard:hover {
+  border-color: var(--accent);
+}
+
+.sourceInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.sourceName {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.sourceMeta {
+  display: block;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Name and type on the first line, the default value on the second — at this
+   panel width all four controls on one line would leave nothing readable. */
+.variableRow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.variableTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Name, type and value are all live controls, so they stay flat until you touch them. */
+.variableName {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-body);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-field);
+  padding: 5px 7px;
+  outline: none;
+}
+
+.variableName:hover {
+  background: var(--field-bg);
+}
+
+.variableName:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+.variableSelect {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+/* The chevron is decoration over the native select. */
+.variableSelect svg {
+  position: absolute;
+  right: 7px;
+  pointer-events: none;
+}
+
+.variableSelectInput {
+  appearance: none;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text-body);
+  background: var(--field-bg);
+  border: 1px solid transparent;
+  border-radius: var(--r-field);
+  padding: 5px 23px 5px 9px;
+  cursor: pointer;
+  outline: none;
+}
+
+.variableSelectInput:hover {
+  background: var(--field-bg-hover);
+}
+
+.variableSelectInput:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+.variableValueRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* Indented to sit under the name, clear of the row's own left edge. */
+  padding-left: 8px;
+}
+
+.variableValueLabel {
+  flex: 0 0 auto;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+}
+
+.variableValueInput {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-body);
+  background: var(--field-bg);
+  border: 1px solid transparent;
+  border-radius: var(--r-field);
+  padding: 4px 7px;
+  outline: none;
+}
+
+.variableValueInput:hover {
+  background: var(--field-bg-hover);
+}
+
+.variableValueInput:focus {
+  background: var(--surface);
+  border-color: var(--accent);
+}
+
+/* The native colour well, trimmed down to a swatch beside the hex field. */
+.variableSwatch {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r-field);
+  cursor: pointer;
+}
+
+.variableSwatch::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.variableSwatch::-webkit-color-swatch {
+  border: none;
+  border-radius: 3px;
+}
+
+.variableEmpty {
+  font-size: var(--text-sm);
+  color: var(--text-faint);
+  margin: 2px 0 0;
+}
+
+/* ================= Canvas ================= */
+
+/* Phone proportions (~9:19.5), capped so the frame never outgrows the canvas:
+   the top bar, the canvas padding and the variant label take ~172px. */
+.screen {
+  position: relative;
+  width: 392px;
+  height: min(816px, calc(100vh - 172px));
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  box-shadow: var(--shadow-phone);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.screenOn {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Inset frame so the selection outline of the stream stays inside the phone. */
+.screenInner {
+  position: absolute;
+  inset: 14px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stream {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}
+
+.streamOn {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.banner {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  background: var(--ad-gradient);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.bannerHeading {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.bannerSubtitle {
+  font-size: var(--text-2xs);
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* Selection on the creative reads as white, since the ad is dark. */
+.selectedOnAd {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.timerSlot {
+  position: absolute;
+  right: 12px;
+  bottom: 74px;
+}
+
+/* ================= Right property panel ================= */
+
+.panelHead {
+  padding: 20px 20px 0;
+}
+
+.panelBody {
+  padding: 18px 20px 28px;
+}
+
+.propStack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.idRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bannerFields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.textFields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.groupTitle {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.groupHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sourcePickList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* The + beside "Stream source" drops its menu under itself, right-aligned. */
+.sourceMenuAnchor {
+  position: relative;
+  display: flex;
+}
+
+.sourceMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  width: 232px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
+  box-shadow: var(--shadow-menu);
+  padding: 6px;
+}
+
+.sourceMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: var(--r-field);
+  padding: 7px 9px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+}
+
+.sourceMenuItem:hover {
+  background: var(--field-bg);
+}
+
+/* Sits under whatever is already there, so it reads as the fallback. */
+.sourceMenuCreate {
+  border-top: 1px solid var(--hairline-soft);
+  border-radius: 0 0 var(--r-field) var(--r-field);
+  margin-top: 4px;
+  padding-top: 10px;
+  color: var(--accent-deep);
+  font-weight: 500;
+}
+
+.sourceMenuEmpty {
+  margin: 0;
+  padding: 6px 9px 2px;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
+.sourceEmpty {
+  padding: 11px 12px;
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--r-control);
+  color: var(--text-soft);
+  font-size: var(--text-sm);
+}
+
+.options {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+/* Indented so it reads as a child of the "unskippable" checkbox above it. */
+.skipRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 29px;
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+}
+
+.divider {
+  border-top: 1px solid var(--hairline-soft);
+  padding-top: 16px;
+}
+
+/* Compact source picker inside the property panel. */
+.sourcePick {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: var(--field-bg);
+  border-radius: var(--r-button);
+}
+
+.sourcePick:hover {
+  background: #eceef0;
+}
+
+.sourcePickMain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 4px 8px 10px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.sourcePickRemove {
+  flex: 0 0 auto;
+  margin-right: 8px;
+}
+
+.sourcePickName {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.sourcePickMeta {
+  display: block;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+
+.fieldLabel {
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+}
+
+.fieldBlock {
+  margin-top: 6px;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.monoValue {
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  color: var(--text-body);
+}
+
+/* ---------- Style tab: one disclosure per run of text in the banner ---------- */
+
+.styleGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.styleGroup {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-panel);
+  overflow: hidden;
+}
+
+.styleGroupOpen {
+  border-color: var(--border);
+}
+
+.styleGroupHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 11px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.styleGroupHead:hover {
+  background: var(--row-hover);
+}
+
+.styleGroupChevron {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  transition: transform 120ms ease;
+}
+
+.styleGroupOpen .styleGroupChevron {
+  transform: rotate(180deg);
+}
+
+.styleGroupTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/* The closed state still says how this text is set. */
+.styleGroupMeta {
+  margin-left: auto;
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+}
+
+.styleGroupBody {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 12px 14px;
+}
+
+/* ---------- Actions tab ---------- */
+
+.actionsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.actionsIntro {
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+}
+
+.actionCard {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-panel);
+  padding: 13px;
+}
+
+.actionCardHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 11px;
+}
+
+.actionDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.actionCardTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.actionDelete {
+  margin-left: auto;
+}
+
+.actionCardRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.actionResourceEmpty {
+  padding: 11px 12px;
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--r-control);
+  color: var(--text-soft);
+  font-size: var(--text-sm);
+}
+
+/* ================= Element library ================= */
+
+.libraryModal {
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  padding: 22px;
+}
+
+.libraryHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.libraryTitle {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.groupLabel {
+  display: block;
+  margin: 4px 0 10px;
+}
+
+.basicGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.basicTile {
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 14px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.basicTile:hover {
+  border-color: var(--accent);
+}
+
+.basicGlyph {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--field-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  color: var(--text-body);
+}
+
+.basicName {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.adGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.adTile,
+.componentLink {
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 13px;
+  cursor: pointer;
+  /* One line of text each, so the rows centre on their icon. */
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+}
+
+.componentLink {
+  width: 100%;
+}
+
+.adTile:hover,
+.componentLink:hover {
+  border-color: var(--accent);
+  color: inherit;
+}
+
+.tileIcon {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: var(--accent-tint-strong);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom components are the green product's output, so their tile is warm. */
+.tileIconComponent {
+  background: #f4f1e9;
+  color: #7a4a2e;
+}
+
+.tileText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.tileName {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+/** The surface the component targets — the one thing worth saying under the name. */
+.tileMeta {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/** Pushes the chevron on the browse row out to the far edge. */
+.tileNameFill {
+  flex: 1;
+}
+
+/* ================= Component marketplace modal ================= */
+
+.componentMarketModal {
+  max-width: calc(100vw - 48px);
+}
+
+.componentMarketShell {
+  height: min(820px, calc(100vh - 48px));
+  display: flex;
+  flex-direction: column;
+  background: var(--canvas-bg);
+}
+
+.componentMarketHead {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.componentMarketTitle {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.componentMarketSubtitle {
+  margin-top: 2px;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.componentMarketActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.openMarketplaceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-control);
+  background: var(--surface);
+  color: var(--text-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.openMarketplaceLink:hover {
+  border-color: var(--accent);
+  color: var(--accent-deep);
+}
+
+.componentMarketBody {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+}
+
+.componentMarketSidebar {
+  min-height: 0;
+  overflow: auto;
+  padding: 18px 14px;
+  background: var(--surface);
+  border-right: 1px solid var(--hairline);
+}
+
+.componentMarketSearch {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  margin-bottom: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-button);
+  background: var(--surface);
+}
+
+.componentMarketSearch:focus-within {
+  border-color: var(--accent);
+}
+
+.componentMarketSearchInput {
+  min-width: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.componentMarketSearchInput:focus-visible {
+  outline: none;
+}
+
+.componentMarketGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 18px;
+}
+
+.componentMarketGroupLabel {
+  padding: 0 9px 6px;
+  color: var(--text-faint);
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.componentMarketCollection {
+  width: 100%;
+  padding: 8px 9px;
+  border: none;
+  border-radius: var(--r-control);
+  background: transparent;
+  color: var(--text-body);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.componentMarketCollection:hover {
+  background: var(--row-hover);
+}
+
+.componentMarketCollectionOn {
+  background: var(--accent-selection);
+  color: var(--accent-deep);
+  font-weight: 600;
+}
+
+.componentMarketResults {
+  min-width: 0;
+  overflow: auto;
+  padding: 20px;
+}
+
+.componentMarketResultsHead {
+  margin-bottom: 14px;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.componentMarketGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 14px;
+}
+
+.componentMarketTile {
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card-lg);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.componentMarketTile:hover {
+  border-color: var(--accent);
+}
+
+.componentMarketPreview {
+  height: 138px;
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.componentMarketTileBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 13px 13px;
+}
+
+.componentMarketTileName {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.componentMarketTileDesc {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+.componentMarketPublisher {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--text-faint);
+  font-size: var(--text-xs);
+}
+
+.componentMarketEmpty {
+  padding: 48px 20px;
+  border: 1px dashed var(--border-dashed);
+  border-radius: var(--r-card-lg);
+  color: var(--text-soft);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .componentMarketBody {
+    grid-template-columns: 1fr;
+  }
+
+  .componentMarketSidebar {
+    display: none;
+  }
+
+  .openMarketplaceLink {
+    font-size: 0;
+  }
+}
+
+/* ================= Action picker ================= */
+
+.triggerRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.trigger {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: var(--r-control);
+  padding: 9px 6px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.triggerOn {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+  color: var(--accent-deep);
+}
+
+.actionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.actionOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  border: 1.5px solid var(--hairline);
+  background: var(--surface);
+  border-radius: var(--r-panel);
+  padding: 11px 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.actionOptionOn {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.actionGlyph {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-field);
+  background: var(--track-bg);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+}
+
+.actionGlyphOn {
+  background: var(--accent);
+  color: #fff;
+}
+
+.actionOptionText {
+  flex: 1;
+}
+
+.actionOptionName {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.actionOptionDesc {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* ================= Source editor ================= */
+
+.sourceNote {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--accent-tint);
+  border-radius: var(--r-button);
+  padding: 11px 13px;
+  font-size: var(--text-sm);
+  color: var(--accent-deep);
+  line-height: 1.4;
+}
+
+.sourceNote svg {
+  flex: 0 0 auto;
+}
+
+.countRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.countBlock {
+  flex: 1;
+}
+
+/* Nudged down so the checkbox lines up with the stepper, not its label. */
+.safeSearch {
+  margin-top: 22px;
+}
+
+.sourceFormField {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.sourceFormInput {
+  width: 100%;
+  height: 42px;
+  padding: 0 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-control);
+  outline: none;
+  background: var(--surface);
+  color: var(--text-body);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.sourceFormInput:focus {
+  border-color: var(--accent);
+}
+
+.sourceFormInput:focus-visible {
+  outline: none;
+}
+
+.sourceFooter {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.deleteSourceButton {
+  margin-right: auto;
+  color: #b42318;
+}
+
+.deleteSourceButton:hover {
+  background: #fff1f0;
+  color: #912018;
+}
+
+/* ================= Start gallery ================= */
+
+.gallery {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--canvas-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.fullBar {
+  height: var(--bar-height);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.fullBarLead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fullBarTitle {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.galleryScroll {
+  flex: 1;
+  overflow: auto;
+  padding: 44px 22px;
+}
+
+.galleryInner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.galleryHeading {
+  font-size: var(--text-display);
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.galleryLead {
+  font-size: var(--text-base);
+  color: var(--text-soft);
+  margin: 0 0 30px;
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+.templateCard {
+  text-align: left;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.templateCard:hover {
+  border-color: var(--accent);
+}
+
+.templatePreview {
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.templatePhone {
+  width: 74px;
+  height: 132px;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.templatePhoneStream {
+  flex: 1;
+  background: repeating-linear-gradient(135deg, #d7dbde 0 7px, #e3e6e8 7px 14px);
+}
+
+.templatePhoneAd {
+  height: 26px;
+  background: var(--accent);
+}
+
+.templateWatchPage {
+  width: 218px;
+  height: 126px;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  background: var(--surface);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.14);
+}
+
+.templateWatchTop {
+  width: 100%;
+  height: 7px;
+  margin-bottom: 7px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ff0033 0 12px, #dfe3e7 12px 42px, transparent 42px);
+}
+
+.templateWatchContent {
+  display: grid;
+  grid-template-columns: 1fr 42px;
+  gap: 7px;
+}
+
+.templateWatchPlayer {
+  position: relative;
+  height: 78px;
+  background: linear-gradient(145deg, #272d35, #111418);
+}
+
+.templateAdBadge {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  background: #f4c84a;
+  color: #28220f;
+  font-size: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.templateWatchRail {
+  background: repeating-linear-gradient(#d7dce1 0 14px, transparent 14px 19px);
+}
+
+.templateWatchLines {
+  width: 58%;
+  height: 12px;
+  margin-top: 7px;
+  background: repeating-linear-gradient(#cdd2d7 0 3px, transparent 3px 6px);
+}
+
+.templateTv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.templateTvScreen {
+  position: relative;
+  width: 218px;
+  height: 123px;
+  border: 5px solid #080a0d;
+  border-radius: 7px;
+  background: linear-gradient(130deg, #29384c, #111820 60%, #090c10);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+}
+
+.templateTvAd {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 7px;
+  font-weight: 600;
+}
+
+.templateTvCta {
+  position: absolute;
+  right: 9px;
+  bottom: 8px;
+  padding: 4px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 3px;
+  color: #fff;
+  font-size: 6px;
+  font-weight: 600;
+}
+
+.templateTvStand {
+  width: 54px;
+  height: 7px;
+  border-top: 5px solid #090b0e;
+  border-radius: 50%;
+}
+
+.templateBody {
+  padding: 13px 15px;
+}
+
+.templateName {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.templateDesc {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.blankCard {
+  width: 100%;
+  max-width: 290px;
+  text-align: left;
+  border: 1.5px dashed var(--border-dashed);
+  background: var(--surface);
+  border-radius: var(--r-card);
+  padding: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.blankCard:hover {
+  border-color: var(--accent);
+}
+
+.blankIcon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-panel);
+  background: var(--field-bg);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blankName {
+  display: block;
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.blankDesc {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ================= Participant view ================= */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--screen-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Builder-only affordance — a real participant never sees this. */
+.exitButton {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  padding: 8px 13px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--text-sm);
+}
+
+.exitButton:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.stageLabel {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.45);
+  font-family: var(--font-mono);
+}
+
+.devicePhone {
+  position: relative;
+  width: 390px;
+  height: 750px;
+  border-radius: 34px;
+  background: #000;
+  box-shadow: var(--shadow-phone-lg);
+  overflow: hidden;
+  border: 6px solid #1b1e22;
+}
+
+.liveBanner {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 26px;
+  background: var(--ad-gradient);
+  border-radius: var(--r-card);
+  padding: 14px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.liveBannerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.liveHeading {
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: #fff;
+}
+
+.liveSubtitle {
+  font-size: var(--text-xs);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.installPill {
+  background: #fff;
+  color: #7c3aed;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
+}
+
+.skipSlot {
+  position: absolute;
+  right: 14px;
+  bottom: 104px;
+}
+
+.skipChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.62);
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 9px 15px;
+  border-radius: var(--r-pill);
+  cursor: default;
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.skipChipReady {
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  cursor: pointer;
+}
+
+.skipChipReady:hover {
+  background: #000;
+}
+
+/* ================= Results ================= */
+
+.results {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--canvas-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-soft);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  padding: 6px 8px;
+  border-radius: var(--r-field);
+}
+
+.backButton:hover {
+  background: var(--field-bg);
+}
+
+/* Balances the back button so the title stays centered. */
+.barSpacer {
+  width: 120px;
+}
+
+.resultsScroll {
+  flex: 1;
+  padding: 40px 22px;
+}
+
+.resultsInner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.sessionCard {
+  background: var(--accent-deep);
+  border-radius: var(--r-card-lg);
+  padding: 22px 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.sessionIcon {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sessionEyebrow {
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.sessionOutcome {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.sessionMeta {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 2px;
+}
+
+.resultsHeading {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.resultsLead {
+  font-size: var(--text-sm);
+  color: var(--text-soft);
+  margin: 0 0 24px;
+}
+
+.resultRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resultRow {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-card);
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 130px 1fr 90px 90px;
+  align-items: center;
+  gap: 20px;
+}
+
+.resultName {
+  font-size: var(--text-base);
+  font-weight: 600;
+}
+
+.resultTrack {
+  height: 10px;
+  background: var(--track-bg);
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+
+.resultBar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--r-pill);
+}
+
+.resultStat {
+  text-align: right;
+}
+
+.resultValue {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.resultCaption {
+  font-size: var(--text-2xs);
+  color: var(--text-faint);
+}
+
+.resultsActions {
+  margin-top: 26px;
+  display: flex;
+  gap: 12px;
+}
