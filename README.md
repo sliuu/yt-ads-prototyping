@@ -1,5 +1,9 @@
 # Ads Prototyper — ad format prototyping
 
+> **Note:** These screens are my own redesigns. Copy, labels, and advanced settings were rewritten or
+> invented to protect Google's confidential information — some deliberately unrelated to the real
+> tool.
+
 A React build of the Claude Design handoff in `~/Downloads/design_handoff_ad_prototyper`. Three
 screens: a home/welcome page, the **prototype editor** (teal) where researchers assemble and run ad
 prototypes, and the **component editor** (green) where UX engineers build the reusable elements the
