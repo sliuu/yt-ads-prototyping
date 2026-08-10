@@ -76,6 +76,25 @@ concern rather than a prop threaded through components.
 - `countdown` and `canSkip` are derived from a single `watched` counter that ticks while the
   participant view is mounted, instead of being separate state kept in sync by the interval.
 
+## Demo scripts
+
+A project carries JavaScript files in the editor's Code tab, and a "Run script" action points at one
+of them. The template project seeds `fade-in-ad.js`; blank projects start with none, so demoing the
+Code tab from empty means pasting something in. This one is short enough to read on a slide and
+touches the two things the panel is there to show — an element listener and an instrumentation call:
+
+```js
+// Mute the stream while the ad is being read, unmute when they tap again.
+export function run({ trigger, stream }) {
+  trigger.addEventListener('click', () => {
+    stream.muted = !stream.muted;
+    log('ad_mute_toggled', { muted: stream.muted });
+  });
+}
+```
+
+Nothing executes it — the editor stores and displays the file, and the participant view ignores it.
+
 ## Not ported
 
 - `support.js` — the handoff's `<x-dc>` / `<sc-if>` / `<sc-for>` runtime, per its README. Those map
